@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta http-equiv="content-type" content="text/html; charset=euc-kr" />
+<title>OfficialWork by TEMPLATED</title>
+<link href="http://fonts.googleapis.com/css?family=Oswald"
+	rel="stylesheet" type="text/css" />
+<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="./css/main.css" rel="stylesheet" type="text/css"
+	media="screen" />
+<style type="text/css">
+@import "main.css";
+
+#rightbox {
+	float: right;
+	display: inline;
+	margin-right: 3vw;
+	margin-top: 1vw;
+}
+
+#menu {
+	background: -webkit-linear-gradient(bottom, #005bea, #00c6fb);
+}
+
+th {
+	background: -webkit-linear-gradient(bottom, #005bea, #00c6fb);
+	color: white;
+}
+
+\
+td {
+	margin: auto;
+}
+</style>
+<script src="./js/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<SCRIPT language=javascript>
+function checkValid() {
+    var f = window.document.writeForm;
+   if ( f.title.value == "" ) {
+      alert( "제목을 입력해 주세요." );
+      return false;
+   }
+    return true;
+}
+
+</SCRIPT>
+<script src="./js/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+	<div id="board">
+		<div id="wrapper">
+			<div id="rightbox">
+				<a href="./login.html"><font size="6em" color="#054175">로그인</font></a>
+			</div>
+			<div id="header">
+				<div id="logo">
+					<h1>
+						<a href="index.html">알바 고래</a>
+					</h1>
+					<p>
+						Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>
+					</p>
+				</div>
+			</div>
+			<!-- end #header -->
+			<div id="menu">
+				<ul>
+						<li><a class="font" href="index.html"><font
+						size="6em">전체 보기</font></a></li>
+				<li><div class="font">
+						<font size="6em">직종별 모아보기</font>
+						<input type="hidden" name="command" value="selectType"> <select
+							name="type" v-model="selectedType">
+								<option value="service" selected="selected">서비스</option>
+								<option value="office">사무직</option>
+								<option value="seller">판매</option>
+								<option value="cooking">외식/음료</option>
+								<option value="delivery">배달</option>
+						</select> 
+					<button>
+						<font class="font" size="6em" @click="filterbyboard">입장</font>
+					</button>
+					</div></li>
+					<li>
+                     <a href="chart.html"><font size="6em">알바고래통계</font></a>
+               		</li>	
+					<li class="last"><button class="font" @click="myboard()">
+							<font class="font" size="6em">내가 쓴 글만 보기</font>
+						</button></li>
+				</ul>
+			</div>
+
+
+
+			<form method="post" action="controller">
+
+				<input type="hidden" name="command" value="insertContent";>
+					<div id="writeboard" v-show="loginstatus">
+						<table
+							style='width: 1000px; text-align: center; cellpadding: 5; cellspacing: 2; border: 1; margin: auto;'>
+							<tr>
+								<th width="1000px" height="10px" colspan="2"
+									style='margin: 0px 0px 100px;'>
+									<p style='text-align: center; font-size: 20px; color: white;'>
+									</p>
+								</th>
+							</tr>
+							<tr>
+								<td class="leftTable">작성자&nbsp;&nbsp;&nbsp;</td>
+								<td width="500px" height="20px" style='text-align: left;'><b><input
+										type=text name="writer" v-model="currId"></input></b></td>
+							</tr>
+							<tr>
+								<td class="leftTable">제 목&nbsp;&nbsp;&nbsp;</td>
+								<td class="rightTable"><b> <input type=text
+										name="title" size="60"></b></td>
+							</tr>
+							<tr>
+								<td class="leftTable">모집 공고&nbsp;&nbsp;&nbsp;</td>
+								<td class="rightTable"><b><textarea
+											style='font-size: 12px;' name="content" cols="75" rows="25">◇모집요강◇
+                                     -----------------------------------------------
+                                     ◇ 업무내용 :
+
+◇ 근무조건
+
+    - 근무기간 :
+                                          
+    - 근무요일 :   
+
+    - 근무시간 :  
+                      
+    - 급여 : 
+
+    - 복리후생 : 
+
+◇ 지원조건
+
+    - 연령 :
+
+    - 학력 : 
+
+    - 우대조건 : 
+
+◇ 모집방법
+
+    - 모집인원 : 
+
+    - 모집종료일 : 
+
+    - 접수방법 :   
+</textarea></b></td>
+							</tr>
+						</table>
+						<div class="write">
+							<p class="writecont">
+								<button type=submit>
+									<font color="#054175" size="6em">글쓰기</font>
+								</button>
+								<b>&nbsp||&nbsp</b>
+								<button type=reset>
+									<font color="#054175" size="6em">다시쓰기</font>
+								</button>
+								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+							</p>
+						</div>
+					</div>
+			</form>
+
+			<hr>
+			<div align=right>
+				<span style="font-size: 25pt; color: #054175">&lt;<a
+					href="list.jsp?command=selectAll" style='color: #054175'>리스트로
+						돌아가기</a>&gt;&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				</span>
+			</div>
+			<script>
+   
+               
+   
+      new Vue({
+         el: '#board',
+         data: {
+            list: '',
+            currId: ''
+         },
+         mounted: function () {
+             axios.get('controller?command=selectAll').then(response => { this.list = response.data; }).catch(error =>{console.log(error)});
+             axios.get('controller?command=loginstatus').then(response => { this.currId = response.data.trim(); }).catch(error =>{console.log(error)});
+         
+         },
+         methods: {
+	    checkValues: function(value){    
+                   if (value.writer == ""){
+                       return value;
+                   }
+           },                
+              
+            myboard: function() {
+               this.list = this.list.filter(item => {item.writer.trim() == this.currId;});
+            }
+         } 
+      });
+   </script>
+<script>
+	new Vue({
+		el: '#writeboard',
+		data: {
+			loginstatus: false,
+			currId: ''
+		},mounted: function () {
+            axios.get('controller?command=loginstatus').then(response => { 
+        		console.log(response.data);
+
+            	if(response.data.trim().length > 0) {
+            		console.log(response.data);
+            		this.currId = response.data;
+            		this.loginstatus = !this.loginstatus;
+            	}else{
+            		alert('로그인 후 이용해주세요.');
+            	}; }).catch(error =>{console.log(error)});
+        }
+	});
+</script>
+
+</BODY>
+</HTML>

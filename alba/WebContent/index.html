@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>OfficialWork by TEMPLATED</title>
+<link href="http://fonts.googleapis.com/css?family=Oswald"
+	rel="stylesheet" type="text/css" />
+<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="./css/main.css" rel="stylesheet" type="text/css"
+	media="screen" />
+<style type="text/css">
+@import "main.css";
+
+#rightbox {
+	float: right;
+	display: inline;
+	margin-right: 3vw;
+	margin-top: 1vw;
+}
+
+#menu {
+	background: -webkit-linear-gradient(bottom, #005bea, #00c6fb);
+}
+
+#list {
+	border-collapse: collapse;
+	width: 1000px;
+	margin: 0 auto;
+	border: 2px solid white;
+	font-weight: bold;
+	text-align: center;
+}
+
+
+th {
+	background: -webkit-linear-gradient(bottom, #005bea, #00c6fb);
+	color: white;
+	border: 5px solid white;
+}
+
+td {
+	text-align: middle;
+	margin: 0;
+	background: #CEF6F5;
+	border: 3px solid white;
+}
+}
+</style>
+<script src="./js/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+	<div id="board">
+		<div id="wrapper">
+			<div id="rightbox">
+				<a href="./login.html"><font size="6em" color="#054175">로그인</font></a>
+			</div>
+			<div id="header">
+				<div id="logo">
+					<h1>
+						<a href="index.html">알바 고래</a>
+					</h1>
+					<p>
+						Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>
+					</p>
+				</div>
+			</div>
+			<!-- end #header -->
+			<div id="menu">
+			<p class="style">{{currId}}님 안녕하세요.</p>
+				<ul>
+						<li><a class="font" href="index.html"><font
+						size="6em">전체 보기</font></a></li>
+				<li><div class="font">
+						<font size="6em">직종별 모아보기</font>
+						<input type="hidden" name="command" value="selectType"> <select
+							name="type" v-model="selectedType">
+								<option value="service" selected="selected">서비스</option>
+								<option value="office">사무직</option>
+								<option value="seller">판매</option>
+								<option value="cooking">외식/음료</option>
+								<option value="delivery">배달</option>
+						</select> 
+					<button>
+						<font class="font" size="6em" @click="filterbyboard">입장</font>
+					</button>
+					</div></li>
+					<li>
+                     <a href="chart.html"><font size="6em">알바고래통계</font></a>
+               		</li>	
+					<li class="last"><button class="font" @click="myboard()">
+							<font class="font" size="6em">내가 쓴 글만 보기</font>
+						</button></li>
+				</ul>
+			</div>
+			<div id="banner">
+				<img src="images/pics01.jpg" width="1000" height="361" alt="" />
+			</div>
+			<div id="welcome">
+				<h2 class="title">
+					<a href="#">알바고래에 오신것을 환영합니다.</a>
+				</h2>
+				<div class="entry">
+					<p>
+						이 페이지는 <strong>알바고래 </strong> 입니다.
+						<p>일자리에 대한 많은 정보를 획득하세요.</p>
+				</div>
+			</div>
+			<div>
+				<table id="list">
+					<thead>
+						<tr>
+							<th class="fortable-50">번호</th>
+							<th class="fortable-400">제목</th>
+							<th class="fortable-100">작성자</th>
+							<th class="fortable-200">작성일</th>
+							<th class="fortable-50">조회수</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="item in list">
+							<td class="fortable-50">{{item.num}}</td>
+							<td class="fortable-400"><a :href="'controller?command=read&num=' + item.num">{{item.title}}</a></td>
+							
+							<td class="fortable-100">{{item.writer}}</td>
+							<td class="fortable-200">{{item.writeday}}</td>
+							<td class="fortable-50">{{item.readnum}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="write">
+         
+            <p class="writecont">
+               <a href="write.html"><font size="6em">글쓰기</font></a>
+            </p>
+         </div>
+
+			<div id="footer">
+				<p>
+					&copy; Untitled. All rights reserved. Design by <a
+						href="http://templated.co" rel="nofollow">TEMPLATED</a>. Photos by
+					<a href="http://fotogrph.com/">Fotogrph</a>.
+				</p>
+			</div>
+		</div>
+	</div>
+	<script>
+	
+               
+	
+      new Vue({
+         el: '#board',
+         data: {
+            list: [],
+            selectedType: '',
+            currId: ''
+         },
+         mounted: function () {
+             axios.get('controller?command=selectAll').then(response => { this.list = response.data; }).catch(error =>{console.log(error)});
+             axios.get('controller?command=loginstatus').then(response => { this.currId = response.data.trim(); }).catch(error =>{console.log(error)});
+         
+         },
+         methods: {
+        	 myboard: function() {
+         		var newlist = this.list.filter(item => item.writer.trim() == this.currId);
+ 				this.list = newlist;
+         	 
+         	 },
+         	 filterbyboard: function() {
+                 axios.get('controller?command=selectType&type='+this.selectedType).then(response => this.list = response.data ).catch(error =>{console.log(error)});
+         	 }
+         }
+      });
+   </script>
+</body>
+
+</html>

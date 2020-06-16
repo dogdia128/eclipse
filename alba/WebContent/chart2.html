@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta http-equiv="content-type" content="text/html; charset=euc-kr" />
+<title>OfficialWork by TEMPLATED</title>
+<link href="http://fonts.googleapis.com/css?family=Oswald"
+	rel="stylesheet" type="text/css" />
+<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="./css/main.css" rel="stylesheet" type="text/css"
+	media="screen" />
+<style type="text/css">
+@import "main.css";
+
+#rightbox {
+	float: right;
+	display: inline;
+	margin-right: 3vw;
+	margin-top: 1vw;
+}
+
+#menu {
+	background: -webkit-linear-gradient(bottom, #005bea, #00c6fb);
+}
+
+th {
+	background: -webkit-linear-gradient(bottom, #005bea, #00c6fb);
+	color: white;
+}
+#chartview{
+	margin-left: 450px;
+}
+
+}
+</style>
+<title>albagorae인기차트</title>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+	        	
+	        	  axios.get("controller?command=typeCount").then(
+	        				response => {
+	        					console.log(response.data);
+	        					datas = response.data;
+	        					typecountdata = [];
+	        					typecountdata.push(['고용인의 업종', '가입자 수']);
+	        					var i;
+	        					for (i = 0; i < datas.length; i++) {
+	        						typecountdata.push([datas[i].type, parseInt(datas[i].count)]);
+	        					}
+	        					google.charts.load("current", {packages:["corechart"]});
+	        					google.charts.setOnLoadCallback( () => {
+	        					
+	        					var data = google.visualization.arrayToDataTable(typecountdata);
+	        		        	  var view = new google.visualization.DataView(data);
+	        		        	  view.setColumns([0, 1]);
+	        		
+	        		        	  var options = {
+	        		        	    title: "가입된 고용주의 업종 분포",
+	        		        	    width: 600,
+	        		        	    height: 400,
+	        		        	    isStacked: true,
+	        		        	    bar: {groupWidth: "95%"},
+	        		        	    legend: { position: "none" },
+	        		        	  };
+	        		           
+	        		        	  var chart = new google.visualization.PieChart(document.getElementById('piechartview'));
+	        		              chart.draw(data, options);
+	        	        
+	        				}).catch(error => {
+	        			console.log(error);	
+	        			}); 
+	        				});
+        
+
+    </script>
+</head>
+<body>
+	<div id="board">
+		<div id="wrapper">
+			<div id="rightbox">
+				<a href="./login.html"><font size="6em" color="#054175">로그인</font></a>
+			</div>
+			<div id="header">
+				<div id="logo">
+					<h1>
+						<a href="index.html">알바 고래</a>
+					</h1>
+					<p>
+						Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>
+					</p>
+				</div>
+			</div>
+			<!-- end #header -->
+			<div id="menu">
+				<ul>
+					<button>
+						<font class="font" size="6em">입장</font>
+					</button>
+					</form>
+					</li>
+
+					<li class="last"><button class="font" @click="myboard()">
+							<font class="font" size="6em">내가 쓴 글만 보기</font>
+						</button></li>
+				</ul>
+			</div>
+
+			
+				<div id="piechartview" style="width: 900px; height: 300px;"></div>	
+		
+		</div>
+</div>
+</body>
+</html>
+-
